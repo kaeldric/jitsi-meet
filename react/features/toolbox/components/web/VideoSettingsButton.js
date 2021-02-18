@@ -12,6 +12,7 @@ import { getMediaPermissionPromptVisibility } from '../../../overlay';
 import { toggleVideoSettings, VideoSettingsPopup } from '../../../settings';
 import { isVideoSettingsButtonDisabled } from '../../functions';
 import VideoMuteButton from '../VideoMuteButton';
+import VideoSelectorButton from '../VideoSelectorButton';
 
 type Props = {
 
@@ -27,20 +28,12 @@ type Props = {
     permissionPromptVisibility: boolean,
 
     /**
-     * Whether there is a video track or not.
-     */
-    hasVideoTrack: boolean,
-
-    /**
      * If the button should be disabled
      */
     isDisabled: boolean,
 
     /**
      * Flag controlling the visibility of the button.
-     * VideoSettings popup is currently disabled on mobile browsers
-     * as mobile devices do not support capture of more than one
-     * camera at a time.
      */
     visible: boolean,
 };
@@ -74,17 +67,6 @@ class VideoSettingsButton extends Component<Props, State> {
         this.state = {
             hasPermissions: false
         };
-    }
-
-    /**
-     * Returns true if the settings icon is disabled.
-     *
-     * @returns {boolean}
-     */
-    _isIconDisabled() {
-        const { hasVideoTrack, isDisabled } = this.props;
-
-        return (!this.state.hasPermissions || isDisabled) && !hasVideoTrack;
     }
 
     /**
@@ -137,18 +119,51 @@ class VideoSettingsButton extends Component<Props, State> {
      * @inheritdoc
      */
     render() {
-        const { onVideoOptionsClick, visible } = this.props;
+        const { isDisabled, onVideoOptionsClick, visible, split } = this.props;
+        const iconDisabled = !this.state.hasPermissions || isDisabled;
 
-        return visible ? (
+        // return visible ? (
+        //     <VideoSettingsPopup>
+        //         <ToolboxButtonWithIcon
+        //             icon = { IconArrowDown }
+        //             iconDisabled = { iconDisabled }
+        //             onIconClick = { onVideoOptionsClick }>
+        //             <VideoMuteButton />
+        //         </ToolboxButtonWithIcon>
+        //     </VideoSettingsPopup>
+        // ) : null;
+
+        // Orig
+        // return visible ? (
+        return (
             <VideoSettingsPopup>
-                <ToolboxButtonWithIcon
-                    icon = { IconArrowDown }
-                    iconDisabled = { this._isIconDisabled() }
-                    onIconClick = { onVideoOptionsClick }>
-                    <VideoMuteButton />
-                </ToolboxButtonWithIcon>
+                {split ? (
+                    <ToolboxButtonWithIcon
+                        icon={IconArrowDown}
+                        iconDisabled={iconDisabled}
+                        onIconClick={onVideoOptionsClick}>
+                        <VideoMuteButton/>
+                    </ToolboxButtonWithIcon>
+                ) : null}
+                {split ? (
+                    <ToolboxButtonWithIcon
+                        icon={IconArrowDown}
+                        iconDisabled={iconDisabled}
+                        onIconClick={onVideoOptionsClick}>
+                        <VideoSelectorButton
+                            onClick={onVideoOptionsClick}/>
+                    </ToolboxButtonWithIcon>
+                ) : (
+                    <ToolboxButtonWithIcon
+                        icon={IconArrowDown}
+                        iconDisabled={iconDisabled}
+                        onIconClick={onVideoOptionsClick}>
+                        <VideoMuteButton/>
+                    </ToolboxButtonWithIcon>
+                )}
+
             </VideoSettingsPopup>
-        ) : <VideoMuteButton />;
+        );
     }
 }
 

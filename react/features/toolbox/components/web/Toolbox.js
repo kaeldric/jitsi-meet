@@ -1226,6 +1226,7 @@ class Toolbox extends Component<Props, State> {
         return this._shouldShowButton('camera')
             ? <VideoSettingsButton
                 key = 'vsb'
+                split = { this._shouldShowButton('camera-split') }
                 visible = { true } />
             : null;
     }
