@@ -410,7 +410,9 @@ class Thumbnail extends Component<Props, State> {
                 <span id = 'localVideoWrapper'>
                     <VideoTrack
                         id = 'localVideo_container'
-                        videoTrack = { _videoTrack } />
+                        videoTrack = { _videoTrack }
+                        muted = { true }
+                        playsInline= { true }/>
                 </span>
                 <div className = 'videocontainer__toolbar'>
                     <StatusIndicators participantID = { id } />

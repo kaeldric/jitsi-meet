@@ -60,6 +60,8 @@ class VideoTrack extends AbstractVideoTrack<Props> {
         return (
             <Video
                 autoPlay = { !this.props._noAutoPlayVideo }
+                muted = { this.props.muted } /* for Safari on iOS to work */
+                playsInline = { this.props.playsInline } /* for Safari on iOS to work */
                 className = { this.props.className }
                 id = { this.props.id }
                 onVideoPlaying = { this._onVideoPlaying }

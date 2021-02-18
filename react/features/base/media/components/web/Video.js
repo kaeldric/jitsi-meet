@@ -153,6 +153,7 @@ class Video extends Component<Props> {
             <video
                 autoPlay = { this.props.autoPlay }
                 className = { this.props.className }
+                muted = { this.props.muted } /* for Safari on iOS to work */
                 id = { this.props.id }
                 playsInline = { this.props.playsinline }
                 ref = { this._setVideoElement } />
